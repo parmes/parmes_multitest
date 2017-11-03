@@ -4,29 +4,8 @@ import subprocess
 import os
 path0 = os.path.dirname(os.path.realpath(__file__))
 
-class Var:
-  def __init__(self, name, modules = [], variables = {}):
-    self.name = name
-    self.modules = modules
-    self.variables = variables
-
-variants = [ Var('g1D', [],
-                {'CC' :'gcc',
-		 'CXX' : 'g++',
-		 'MPICC' : 'mpicc',
-		 'MPICXX' : 'mpicxx',
-		 'FC' : 'gfortran',
-		 'FCLIB' : '-lgfortran',
-		 'ZOLTAN' : 'no'}),
-             Var('g1Z', [],
-                {'CC' :'gcc',
-		 'CXX' : 'g++',
-		 'MPICC' : 'mpicc',
-		 'MPICXX' : 'mpicxx',
-		 'FC' : 'gfortran',
-		 'FCLIB' : '-lgfortran',
-		 'ZOLTAN' : 'yes'})
-            ]
+execfile (path0 + '/0-var.py')
+execfile (path0 + '/0-var-local.py')
 
 # save configuration files
 copy (path0+'/../dynlb/Config.mak', path0+'/config/Config.mak.dynlb')
@@ -34,13 +13,6 @@ copy (path0+'/../parmec/Config.mak', path0+'/config/Config.mak.parmec')
 copy (path0+'/../solfec/Config.mak', path0+'/config/Config.mak.solfec')
 
 for var in variants:
-  if len(var.modules) > 0: # load module
-    process = subprocess.Popen('module purge', shell=True)
-    process.wait()
-    for mod in var.modules:
-      process = subprocess.Popen('module load ' + mod, shell=True)
-      process.wait()
-
   codes = ['dynlb', 'parmec', 'solfec']
   for code in codes: # compile codes
     print '***'
@@ -58,8 +30,17 @@ for var in variants:
 	    print key + '=' + var.variables[key]
       if nomatch: print line,
     make = 'make all' if code == 'solfec' else 'make'
-    process = subprocess.Popen('cd ../%s && %s' % (code, make), shell=True)
+    if len(var.modules) > 0: # load modules
+      command = "bash -c 'module purge ;"
+      for mod in var.modules:
+        command += " module load %s ;" % mod
+      command += " module list ; cd ../%s && %s'" % (code, make)
+    else: command = 'cd ../%s && %s' % (code, make)
+
+    print 'Running:', command
+    process = subprocess.Popen(command, shell=True)
     process.wait()
+
 
   # copy executables
   copy (path0+'/../parmec/parmec4', path0+'/parmec/parmec4-' + var.name)

@@ -1,0 +1,17 @@
+variants = [ Var('g1D', [],
+                {'CC' :'gcc',
+		 'CXX' : 'g++',
+		 'MPICC' : 'mpicc',
+		 'MPICXX' : 'mpicxx',
+		 'FC' : 'gfortran',
+		 'FCLIB' : '-lgfortran',
+		 'ZOLTAN' : 'no'}),
+             Var('g1Z', [],
+                {'CC' :'gcc',
+		 'CXX' : 'g++',
+		 'MPICC' : 'mpicc',
+		 'MPICXX' : 'mpicxx',
+		 'FC' : 'gfortran',
+		 'FCLIB' : '-lgfortran',
+		 'ZOLTAN' : 'yes'})
+            ]
