@@ -1,7 +1,7 @@
 # PARMES multi-test Makefile
 
 .PHONY: gen
-gen: dir
+gen:
 	python 0-gen-bin.py
 
 .PHONY: solfec-1
@@ -10,12 +10,6 @@ solfec-1:
 
 .PHONY: all
 all: gen solfec-1
-
-.PHONY: dir
-dir: clean
-	mkdir config
-	mkdir parmec
-	mkdir solfec
 
 .PHONY: clean
 clean:
