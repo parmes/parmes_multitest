@@ -22,3 +22,4 @@ clean:
 	rm -fr config
 	rm -fr parmec
 	rm -fr solfec
+	rm -fr run.sh

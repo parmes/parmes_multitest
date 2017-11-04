@@ -1,16 +1,20 @@
 from shutil import copy
+from os import mkdir
 import fileinput
 import subprocess
-import os
-path0 = os.path.dirname(os.path.realpath(__file__))
 
-execfile (path0 + '/0-var.py')
-execfile (path0 + '/0-var-local.py')
+execfile ('0-var.py')
+execfile ('0-var-local.py')
+
+# make directories
+mkdir ('config')
+mkdir ('parmec')
+mkdir ('solfec')
 
 # save configuration files
-copy (path0+'/../dynlb/Config.mak', path0+'/config/Config.mak.dynlb')
-copy (path0+'/../parmec/Config.mak', path0+'/config/Config.mak.parmec')
-copy (path0+'/../solfec/Config.mak', path0+'/config/Config.mak.solfec')
+copy ('../dynlb/Config.mak', 'config/Config.mak.dynlb')
+copy ('../parmec/Config.mak', 'config/Config.mak.parmec')
+copy ('../solfec/Config.mak', 'config/Config.mak.solfec')
 
 for var in variants:
   codes = ['dynlb', 'parmec', 'solfec']
@@ -43,12 +47,12 @@ for var in variants:
 
 
   # copy executables
-  copy (path0+'/../parmec/parmec4', path0+'/parmec/parmec4-' + var.name)
-  copy (path0+'/../parmec/parmec8', path0+'/parmec/parmec8-' + var.name)
-  copy (path0+'/../solfec/solfec', path0+'/solfec/solfec-' + var.name)
-  copy (path0+'/../solfec/solfec-mpi', path0+'/solfec/solfec-mpi-' + var.name)
+  copy ('../parmec/parmec4', 'parmec/parmec4-' + var.name)
+  copy ('../parmec/parmec8', 'parmec/parmec8-' + var.name)
+  copy ('../solfec/solfec', 'solfec/solfec-' + var.name)
+  copy ('../solfec/solfec-mpi', 'solfec/solfec-mpi-' + var.name)
 
 # restore configuration files
-copy (path0+'/config/Config.mak.dynlb', path0+'/../dynlb/Config.mak')
-copy (path0+'/config/Config.mak.parmec', path0+'/../parmec/Config.mak')
-copy (path0+'/config/Config.mak.solfec', path0+'/../solfec/Config.mak')
+copy ('config/Config.mak.dynlb', '../dynlb/Config.mak')
+copy ('config/Config.mak.parmec', '../parmec/Config.mak')
+copy ('config/Config.mak.solfec', '../solfec/Config.mak')
