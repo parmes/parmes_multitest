@@ -16,8 +16,8 @@ class Job:
 
 jobs = [Job('array1S', 'mpirun solfec/solfec-mpi-%s ../solfec/examples/parallel-scaling/array-of-cubes.py -M 20 -N 2 -stop 0.1', 1, 24),
         Job('array2S', 'mpirun solfec/solfec-mpi-%s ../solfec/examples/parallel-scaling/array-of-cubes.py -M 20 -N 2 -stop 0.1', 2, 48),
-	Job('drum1S', 'mpirun solfec/solfec-mpi-%s ../solfec/examples/parallel-scaling/rotating-drum.py -npar 8000 -stop 1.5 -step 1E-4', 1, 24),
-	Job('drum2S', 'mpirun solfec/solfec-mpi-%s ../solfec/examples/parallel-scaling/rotating-drum.py -npar 8000 -stop 1.5 -step 1E-4', 2, 48)
+	Job('drum1S', 'mpirun solfec/solfec-mpi-%s ../solfec/examples/parallel-scaling/rotating-drum.py -npar 8000 -stop 1.5 -step 1E-4 -outi 0.1', 1, 24),
+	Job('drum2S', 'mpirun solfec/solfec-mpi-%s ../solfec/examples/parallel-scaling/rotating-drum.py -npar 8000 -stop 1.5 -step 1E-4 -outi 0.3', 2, 48)
 	]
 
 for var in variants:
