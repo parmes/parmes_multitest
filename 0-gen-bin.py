@@ -4,6 +4,7 @@ import fileinput
 import subprocess
 import os
 
+ZOLTANSRC = '/home/tk49770n/files/Zoltan_v3.83'
 execfile ('0-var.py')
 execfile ('0-var-athos.py')
 
@@ -42,6 +43,23 @@ for var in variants:
 	      nomatch = False
 	      print key + '=' + var.variables[key]
         if nomatch: print line,
+      if code == 'solfec' and var.variables['ZOLTAN'] == 'yes':
+	zbuild = ZOLTANSRC + '/build_%s' % var.name
+	zconfg = '../configure --prefix=%s --disable-zoltan-cppdriver --disable-tests --disable-examples' % zbuild
+        if not os.path.isdir(zbuild):
+	  print '***'
+	  print '*** compiling ZOLTAN variant: %s' % var.name
+	  print '***                  at path: %s' % zbuild
+	  print '***'
+	  mkdir (zbuild)
+	  if len(var.modules) > 0: # load modules
+	    command = "bash -c 'module purge ;"
+	    for mod in var.modules:
+	      command += " module load %s ;" % mod
+	    command += " module list ; cd %s && %s && make && make install'" % (zbuild, zconfg)
+	  else: command = 'cd ../%s && %s' % (code, make)
+	process = subprocess.Popen(command, shell=True)
+	process.wait()
       make = 'make all' if code == 'solfec' else 'make'
       if len(var.modules) > 0: # load modules
         command = "bash -c 'module purge ;"

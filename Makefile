@@ -8,8 +8,9 @@ gen:
 solfec-1:
 	python 1-run-solfec.py
 
-.PHONY: all
-all: gen solfec-1
+.PHONY: solfec-2
+solfec-2:
+	python 2-run-solfec.py
 
 .PHONY: clean
 clean:

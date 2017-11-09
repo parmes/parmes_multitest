@@ -3,6 +3,7 @@ import fileinput
 import subprocess
 import os
 
+ZOLTANSRC = '/home/tk49770n/files/Zoltan_v3.83'
 execfile ('0-var.py')
 execfile ('0-var-athos.py')
 
@@ -14,13 +15,14 @@ class Job:
     self.ranks = ranks
     self.taskspernode = taskspernode
 
-jobs = [Job('array1S', 'mpirun solfec/solfec-mpi-%s ../solfec/examples/parallel-scaling/array-of-cubes.py -M 20 -N 2 -stop 0.1', 1, 24),
-        Job('array2S', 'mpirun solfec/solfec-mpi-%s ../solfec/examples/parallel-scaling/array-of-cubes.py -M 20 -N 2 -stop 0.1', 2, 48),
-	Job('drum1S', 'mpirun solfec/solfec-mpi-%s ../solfec/examples/parallel-scaling/rotating-drum.py -npar 8000 -stop 1.5 -step 1E-4 -outi 0.3', 1, 24),
-	Job('drum2S', 'mpirun solfec/solfec-mpi-%s ../solfec/examples/parallel-scaling/rotating-drum.py -npar 8000 -stop 1.5 -step 1E-4 -outi 0.3', 2, 48)
+jobs = [Job('arr2L', 'mpirun solfec/solfec-mpi-%s ../solfec/examples/parallel-scaling/array-of-cubes.py -M 20 -N 2 -stop 1.5', 2, 48),
+        Job('arr4L', 'mpirun solfec/solfec-mpi-%s ../solfec/examples/parallel-scaling/array-of-cubes.py -M 20 -N 2 -stop 1.5', 4, 96),
+	Job('dru2L', 'mpirun solfec/solfec-mpi-%s ../solfec/examples/parallel-scaling/rotating-drum.py -npar 8000 -stop 3.0 -step 1E-4 -outi 0.3', 2, 48),
+	Job('dru4L', 'mpirun solfec/solfec-mpi-%s ../solfec/examples/parallel-scaling/rotating-drum.py -npar 8000 -stop 3.0 -step 1E-4 -outi 0.3', 4, 96)
 	]
 
 for var in variants:
+  if var.variables['ZOLTAN'] == 'no': continue # skip non-Zoltan variants
   for job in jobs: # schedule jobs
     print '***'
     print '*** scheduling: %s variant: %s' % (job.name, var.name)
