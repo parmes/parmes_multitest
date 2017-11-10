@@ -15,10 +15,10 @@ class Job:
     self.ranks = ranks
     self.taskspernode = taskspernode
 
-jobs = [Job('arr2L', 'mpirun solfec/solfec-mpi-%s ../solfec/examples/parallel-scaling/array-of-cubes.py -M 20 -N 2 -stop 1.5', 2, 48),
-        Job('arr4L', 'mpirun solfec/solfec-mpi-%s ../solfec/examples/parallel-scaling/array-of-cubes.py -M 20 -N 2 -stop 1.5', 4, 96),
-	Job('dru2L', 'mpirun solfec/solfec-mpi-%s ../solfec/examples/parallel-scaling/rotating-drum.py -npar 8000 -stop 3.0 -step 1E-4 -outi 0.3', 2, 48),
-	Job('dru4L', 'mpirun solfec/solfec-mpi-%s ../solfec/examples/parallel-scaling/rotating-drum.py -npar 8000 -stop 3.0 -step 1E-4 -outi 0.3', 4, 96)
+jobs = [Job('arr2L', 'mpirun solfec/solfec-mpi-%s ../solfec/examples/parallel-scaling/array-of-cubes.py -M 20 -N 2 -stop 1.5 -outi 0.5', 2, 48),
+        Job('arr4L', 'mpirun solfec/solfec-mpi-%s ../solfec/examples/parallel-scaling/array-of-cubes.py -M 20 -N 2 -stop 1.5 -outi 0.5', 4, 96),
+	Job('dru2L', 'mpirun solfec/solfec-mpi-%s ../solfec/examples/parallel-scaling/rotating-drum.py -npar 8000 -stop 3.0 -step 1E-4 -outi 0.5', 2, 48),
+	Job('dru4L', 'mpirun solfec/solfec-mpi-%s ../solfec/examples/parallel-scaling/rotating-drum.py -npar 8000 -stop 3.0 -step 1E-4 -outi 0.5', 4, 96)
 	]
 
 for var in variants:
