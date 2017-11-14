@@ -15,15 +15,19 @@ class Job:
     self.ranks = ranks
     self.taskspernode = taskspernode
 
-jobs = [Job('arr2L', 'mpirun solfec/solfec-mpi-%s ../solfec/examples/parallel-scaling/array-of-cubes.py -M 20 -N 2 -stop 1.5 -outi 0.5', 2, 48),
-        Job('arr4L', 'mpirun solfec/solfec-mpi-%s ../solfec/examples/parallel-scaling/array-of-cubes.py -M 20 -N 2 -stop 1.5 -outi 0.5', 4, 96),
-	Job('dru2L', 'mpirun solfec/solfec-mpi-%s ../solfec/examples/parallel-scaling/rotating-drum.py -npar 8000 -stop 3.0 -step 1E-4 -outi 0.5', 2, 48),
-	Job('dru4L', 'mpirun solfec/solfec-mpi-%s ../solfec/examples/parallel-scaling/rotating-drum.py -npar 8000 -stop 3.0 -step 1E-4 -outi 0.5', 4, 96)
+jobs = [Job('a2L', 'mpirun solfec/solfec-mpi-%s ../solfec/examples/parallel-scaling/array-of-cubes.py -M 20 -N 2 -stop 1.5 -outi 0.5', 2, 48),
+        Job('a4L', 'mpirun solfec/solfec-mpi-%s ../solfec/examples/parallel-scaling/array-of-cubes.py -M 20 -N 2 -stop 1.5 -outi 0.5', 4, 96),
+	Job('d2L', 'mpirun solfec/solfec-mpi-%s ../solfec/examples/parallel-scaling/rotating-drum.py -npar 8000 -stop 3.0 -step 1E-4 -outi 0.5', 2, 48),
+	Job('d4L', 'mpirun solfec/solfec-mpi-%s ../solfec/examples/parallel-scaling/rotating-drum.py -npar 8000 -stop 3.0 -step 1E-4 -outi 0.5', 4, 96)
 	]
 
+varnames = ['g4D', 'g5D', 'g6D', 'g7D', 'g4Z', 'g5Z', 'g6Z', 'g7Z', 'i4D', 'i5D', 'i6D', 'i7D', 'i4Z', 'i5Z', 'i6Z', 'i7Z']
+jobnames = []
+
 for var in variants:
-  if var.variables['ZOLTAN'] == 'no': continue # skip non-Zoltan variants
+  if len(varnames) > 0 and var.name not in varnames: continue
   for job in jobs: # schedule jobs
+    if len(jobnames) > 0 and job.name+'-'+var.name not in jobnames: continue
     print '***'
     print '*** scheduling: %s variant: %s' % (job.name, var.name)
     print '***'
